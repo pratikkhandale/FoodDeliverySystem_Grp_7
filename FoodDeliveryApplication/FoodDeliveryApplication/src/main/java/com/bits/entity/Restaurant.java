@@ -1,5 +1,6 @@
 package com.bits.entity;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Restaurant name is required")
+    @Size(min = 2, max = 100, message = "Restaurant name must be between 2 and 100 characters")
     private String name;
     private String address;
     private String hoursOfOperation;
@@ -26,6 +29,12 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant")
     private List<Order> orders;
+
+    public Restaurant(String name, String address, String hoursOfOperation) {
+        this.name = name;
+        this.address = address;
+        this.hoursOfOperation = hoursOfOperation;
+    }
 
     public Long getId() {
         return id;

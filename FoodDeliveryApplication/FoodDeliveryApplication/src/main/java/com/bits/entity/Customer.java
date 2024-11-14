@@ -1,5 +1,6 @@
 package com.bits.entity;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,17 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Name is required")
     private String name;
+
+    @Email(message = "Email should be valid")
+    @NotEmpty(message = "Email is required")
     private String email;
+
+    @NotEmpty(message = "Email is required")
     private String password;
+
+    @NotEmpty(message = "Delivery address is required")
     private String deliveryAddress;
 
     @OneToMany(mappedBy = "customer")
@@ -71,5 +80,12 @@ public class Customer {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public Customer(String name, String password, String email, String deliveryAddress) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.deliveryAddress = deliveryAddress;
     }
 }

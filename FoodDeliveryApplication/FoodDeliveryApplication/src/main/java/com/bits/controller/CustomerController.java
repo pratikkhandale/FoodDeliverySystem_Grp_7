@@ -1,8 +1,10 @@
 package com.bits.controller;
 
 import com.bits.entity.Customer;
+import com.bits.entity.CustomerLogin;
 import com.bits.entity.Order;
 import com.bits.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,14 +20,19 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping
-    public ResponseEntity<Customer> registerCustomer(@RequestBody Customer customer) {
+    @PostMapping("/register")
+    public ResponseEntity<Customer> registerCustomer(@RequestBody @Valid Customer customer) {
         return ResponseEntity.ok(customerService.saveCustomer(customer));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
         return ResponseEntity.ok(customerService.getCustomerById(id));
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<String> customerLogin(@RequestBody CustomerLogin customerLogin) {
+        return ResponseEntity.ok(customerService.login(customerLogin));
     }
 
     @PutMapping("/{id}")

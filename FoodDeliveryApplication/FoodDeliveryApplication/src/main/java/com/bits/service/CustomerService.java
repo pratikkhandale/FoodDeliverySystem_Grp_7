@@ -1,6 +1,7 @@
 package com.bits.service;
 
 import com.bits.entity.Customer;
+import com.bits.entity.CustomerLogin;
 import com.bits.entity.Order;
 import com.bits.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,16 @@ public class CustomerService {
 
     public Customer getCustomerById(Long id) {
         return customerRepository.findById(id).orElse(null);
+    }
+    public String login(CustomerLogin customerLogin){
+        String email= customerLogin.getEmail();
+        List<Customer> customers= customerRepository.findByEmail(email);
+        for(Customer customer: customers){
+            if (customer.getPassword().equals(customerLogin.getPassword())) {
+                return "token";
+            }
+        }
+        return "login failed";
     }
 
     public Customer saveCustomer(Customer customer) {
